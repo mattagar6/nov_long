@@ -33,27 +33,25 @@ int main(int argc, char* argv[]) {
     cin.tie(0);
     
     srand(atoi(argv[1]));
-    int n = r(2, 100*1000);
-    int Q = r(2, 100*1000);
-    cout << n << " " << Q << "\n";
-    forn(i, n) {
-        cout << r(1, 10) << " ";
-    }
-    cout << "\n";
-    for(int i = 2; i <= n; i++) {
-        int p = r(1, i-1);
-        //int p = i-1;
-        g[p].push_back(i);
-        cout << p << " " << i << "\n";
-    }
-    dfs(1, 0);
-    //cerr << D << endl;
-    //exit(0);
-    for(int i = 0; i < Q; i++) {
-        int level = r(0, D);
-        assert(!at[level].empty());
-        int m = at[level].size();
-        int a = r(0, m-1), b = r(0, m-1);
-        cout << at[level][a] << " " << at[level][b] << "\n";
+    int t = 1;
+    cout << t << "\n";
+    while(t--) {
+        int n = r(1, 5);
+        cout << n << "\n";
+        set<int> seen;
+        for(int i = 0; i < n; i++) {
+            int x;
+            do {
+                x = r(1, 2*n);
+            } while(seen.count(x));
+            seen.insert(x);
+            cout << x << " ";
+        }
+        cout << "\n";
+        int Q = r(1, 5);
+        cout << Q << "\n";
+        for(int i = 0; i < Q; i++) {
+            cout << r(1, 2*n) << "\n";
+        }
     }
 }

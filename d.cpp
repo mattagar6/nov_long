@@ -76,7 +76,22 @@ void tc() {
     }
     vector<int> pre(n+1);
     for(int i = 0; i < n; i++) {
-        pre[i+1] = add(pre[i], a[i]);
+        pre[i+1] = add(pre[i], a[i] - (i < n-1 && a[i] % 2 == 1));
+    }
+    
+    vector<int> taken_even(n);
+    if(one_pos < n-1 && one_pos > 0) {
+        for(int i = 0; i < n; i++) {
+            if(i+1 == one_pos) {
+                pre[i+1] = add(pre[i], (a[i] % 2 ? a[i] : a[i]-1));
+            }
+            else {
+                pre[i+1] = add(pre[i], a[i] - (i < n-1 && a[i] % 2 == 1));
+                if(i < n-1 && a[i] % 2 == 1) {
+                    taken_even[i] = 1;
+                }
+            }
+        }
     }
     
     int Q;
@@ -86,11 +101,16 @@ void tc() {
         long long R;
         cin >> R;
         if(one_pos >= n-1) {
-            cout << add(mul((R / n) % mod, pre[n] - (a[n-1] % 2 == 0)), pre[R % n]) << "\n";
+            cout << add(add(mul((R / n) % mod, pre[n] - (a[n-1] % 2 == 0)), R >= n && a[n-1] % 2 == 0),
+                        add(pre[R % n], (R % n > 0 && a[R % n - 1] % 2))) << "\n";
+        }
+        else if(one_pos == 0) {
+            // not sure yet...
+            cout << ((R+n-1)/n) % mod << "\n";
         }
         else {
-            //throw;
-            
+            cout << add(add(mul((R / n) % mod, pre[n] - (a[n-1] % 2 == 0)), R >= n && a[n-1] % 2 == 0),
+                        add(pre[R % n], (R % n > 0 && taken_even[R % n - 1]))) << "\n";
         }
     }
 }
