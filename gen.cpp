@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     int t = 1;
     cout << t << "\n";
     while(t--) {
-        int n = r(1, 5);
+        int n = r(1, 4);
         cout << n << "\n";
         set<int> seen;
         for(int i = 0; i < n; i++) {
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         int Q = r(1, 5);
         cout << Q << "\n";
         for(int i = 0; i < Q; i++) {
-            cout << r(1, 2*n) << "\n";
+            cout << r(1, 5*n) << "\n";
         }
     }
 }

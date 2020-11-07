@@ -84,6 +84,9 @@ void tc() {
         for(int i = 0; i < n; i++) {
             if(i+1 == one_pos) {
                 pre[i+1] = add(pre[i], (a[i] % 2 ? a[i] : a[i]-1));
+                if(a[i] % 2 == 0) {
+                    taken_even[i] = 1;
+                }
             }
             else {
                 pre[i+1] = add(pre[i], a[i] - (i < n-1 && a[i] % 2 == 1));
@@ -101,16 +104,27 @@ void tc() {
         long long R;
         cin >> R;
         if(one_pos >= n-1) {
-            cout << add(add(mul((R / n) % mod, pre[n] - (a[n-1] % 2 == 0)), R >= n && a[n-1] % 2 == 0),
+            //cerr << "A\n";
+            cout << add(add(mul((R / n) % mod, pre[n] - (R > n && a[n-1] % 2 == 0)), R > n && R % n == 0 && a[n-1] % 2 == 0),
                         add(pre[R % n], (R % n > 0 && a[R % n - 1] % 2))) << "\n";
         }
         else if(one_pos == 0) {
             // not sure yet...
-            cout << ((R+n-1)/n) % mod << "\n";
+            //cerr << "B\n";
+            cout << max(1LL, ((R+n-2)/n) % mod) << "\n";
         }
         else {
-            cout << add(add(mul((R / n) % mod, pre[n] - (a[n-1] % 2 == 0)), R >= n && a[n-1] % 2 == 0),
-                        add(pre[R % n], (R % n > 0 && taken_even[R % n - 1]))) << "\n";
+            //cerr << "C\n";
+            int ans = add(add(mul((R / n) % mod, pre[n] - (R > n && a[n-1] % 2 == 0)), R > n && R % n == 0 && a[n-1] % 2 == 0),
+                        add(pre[R % n], (R % n > 0 && taken_even[R % n - 1])));
+            
+            if(R % n - 1 == one_pos && a[R % n - 2] % 2 == 0) {
+                add_self(ans, 1);
+            }
+            if(R % n - 1 == one_pos && a[R % n - 2] % 2 == 1) {
+                add_self(ans, -1);
+            }
+            cout << ans << "\n";
         }
     }
 }
